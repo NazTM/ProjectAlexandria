@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post Page</title>
+<link rel="stylesheet" href="../src/post.css">
+  </head>
+  <body>
+    <header>
+      <a href="home 2.html">Project Alexandria</a>
+      <a href="library.html">Library</a>
+      <a href="post.html">Post</a>
+      <a href="feedback.html">Feedback</a>
+      <a href="login/signup.html">Login/signup</a>
+    </header>
+    <main>
+      <div class="post-container">
+        <textarea placeholder="Write a comment..."></textarea>
+        <button>Post</button>
+      </div>
+      <button class="refresh-button" onclick="location.reload()">Refresh Posts</button>
+      <div class="post-list">
+        <!-- Example Post -->
+        <div class="post">
+          <p>This is an example post. It shows how a post will look like.</p>
+          <button class="post-button">Like</button>
+          <button class="post-button" onclick="toggleCommentBox(this)">Comment</button>
+          <div class="comment-box">
+            <textarea placeholder="Write a comment..."></textarea>
+            <button>Submit</button>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <p>coded by Promit, Kazi, Naziba and Hritik.</p>
+    </footer>
+    <script>
+      function toggleCommentBox(button) {
+        const commentBox = button.nextElementSibling;
+        if (commentBox.style.display === "none" || commentBox.style.display === "") {
+          commentBox.style.display = "block";
+        } else {
+          commentBox.style.display = "none";
+        }
+      }
+    </script>
+  </body>
+</html>
