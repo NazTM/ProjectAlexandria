@@ -1,12 +1,11 @@
 //root component
 import { useState } from "react";
-import "./App.css";
+import { Link, Routes, Route } from "react-router-dom";
 import "./home.css";
-//import Searchbar from "./components/Searchbar";
-//import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-//import router from './router'
-import Post_structure from "./post_structure";
-//import LoginSignup from "./LoginSignup";
+import Post_structure from "./components/post_structure";
+import LoginSignup from "./LoginSignup";
+//import Navbar from "./components/navbar";
+import FeedbackPage from "./feedback";
 
 function App() {
   const [post, setPost] = useState([
@@ -18,55 +17,59 @@ function App() {
     { Post_structure },
   ]);
   const [name, setName] = useState("Hritik");
+  const [notice, setNotice] = useState(
+    "Welcome to Project Alexandria! Enjoy browsing and feel free to ask questions."
+  );
+
   const handleClick = () => {
     setName("Hrithik.");
   };
 
   return (
     <>
-      {/*<Router>*/}
-      <body>
-        <div className="home-container">
-          <header className="header">
-            <a href="/">Project Alexandria</a>
-            <a href="/library">Library</a>
-            <a href="/post">Ask a question</a>
-            <a href="/feedback">Feedback</a>
-            <a href="/LoginSignup">Login/signup</a>
-          </header>
-          {/*<Switch>
-              <Route exact path="/LoginSignup">
-                <LoginSignup />
-              </Route>
-            </Switch>*/}
-          <main className="main">
-            <div className="post-grid">
-              {post.map((_, index) => (
-                <Post_structure key={index} />
-              ))}
-            </div>
-          </main>
+      <div className="home-container">
+        <header className="header">
+          <Link to="/">Project Alexandria</Link>
+          <Link to="/library">Library</Link>
+          <Link to="/post">Ask a question</Link>
+          <Link to="/feedback">Feedback</Link>
+          <Link to="/LoginSignup">Login/Signup</Link>
+          <Routes>
+            <Route path="/feedback" element={<FeedbackPage />} />
+            <Route path="/LoginSignup" element={<LoginSignup />} />
+          </Routes>
+        </header>
 
-          <footer className="footer">
-            <p>
-              coded by
-              {<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Promit</a>}
-              ,{" "}
-              <button
-                onClick={() => {
-                  handleClick();
-                }}
-              >
-                Kazi
-              </button>
-              , Naziba, and {name}. &copy;
-              {Math.floor(Math.random() * (2500 - 1500 + 1)) + 1500} Project
-              Alexandria.
-            </p>
-          </footer>
-        </div>
-      </body>
-      {/*</Router>*/}
+        <main className="main">
+          <div className="notice-board">
+            <p>{notice}</p> {/* Display the notice message */}
+          </div>
+          <div className="post-grid">
+            {post.map((_, index) => (
+              <Post_structure key={index} />
+            ))}
+          </div>
+        </main>
+
+        <footer className="footer">
+          <p>
+            coded by
+            {
+              <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Promit</a>
+            },{" "}
+            <button
+              onClick={() => {
+                handleClick();
+              }}
+            >
+              Kazi
+            </button>
+            , Naziba, and {name}. &copy;
+            {Math.floor(Math.random() * (2500 - 1500 + 1)) + 1500} Project
+            Alexandria.
+          </p>
+        </footer>
+      </div>
     </>
   );
 }
