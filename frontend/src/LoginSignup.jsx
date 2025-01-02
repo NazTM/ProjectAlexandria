@@ -57,6 +57,8 @@ const LoginSignup = () => {
       </div>
     </div>
   );
+
+  
 };
 
 export default LoginSignup;
