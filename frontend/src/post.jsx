@@ -1,7 +1,18 @@
-import {useState } from 'react';
-import './post.css';
+import { useState } from "react";
+import "./post.css";
 
-function postPage() {
+function PostPage() {
+  const [question, setQuestion] = useState("");
+
+  const handleInputChange = (event) => {
+    setQuestion(event.target.value);
+  };
+
+  const handleSubmit = () => {
+    console.log("Question submitted:", question);
+    // Add your submit logic here
+  };
+
   return (
     <>
       <body>
@@ -13,9 +24,13 @@ function postPage() {
           <a href="login/signup.html">Login/signup</a>
         </header>
         <main>
-          <div class="post-container">
-            <textarea placeholder="Write a question..."></textarea>
-            <button>Post</button>
+          <div className="post-container">
+            <textarea
+              placeholder="Write a question..."
+              value={question}
+              onChange={handleInputChange}
+            ></textarea>
+            <button onClick={handleSubmit}>Post</button>
           </div>
         </main>
         <footer>
@@ -23,6 +38,7 @@ function postPage() {
         </footer>
       </body>
     </>
-  )
-
+  );
 }
+
+export default PostPage;
