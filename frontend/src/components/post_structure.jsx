@@ -39,7 +39,7 @@ function Post_structure() {
       setHasReacted(true);
     }
   };
-
+  const [tags, setTags] = useState(["CSE110", "CSE111"]);
   return (
     <>
       <div className="post">
@@ -63,6 +63,16 @@ function Post_structure() {
         <div className="post-footer">
           <span className="post-author">By {authorName}.</span>{" "}
           {/*will change to username attribute later*/}
+          <div className="tags-box">
+            <span className="tags-title">Tags:</span>
+            <ul className="tags-list">
+              {tags.map((tag, index) => (
+                <li key={index} className="tag">
+                  {tag}
+                </li>
+              ))}
+            </ul>
+          </div>
           <div className="like-dislike-buttons">
             <button
               className="like-button"
