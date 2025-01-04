@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./LoginSignup.css";
 import "./home.css";
 import Profile from "./profile_page";
@@ -10,14 +11,31 @@ const LoginSignup = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isLogin) {
-      console.log("Logging in with", username, password);
-    } else {
-      console.log("Signing up with", username, password);
+    try {
+      if (isLogin) {
+        console.log("Logging in with", username, password);
+        const response = await axios.post("http://localhost:5000/api/login", {
+          username,
+          password,
+        });
+        if (response.status === 200) {
+          navigate("/profile_page");
+        }
+      } else {
+        console.log("Signing up with", username, password);
+        const response = await axios.post("http://localhost:5000/api/signup", {
+          username,
+          password,
+        });
+        if (response.status === 201) {
+          navigate("/profile_page");
+        }
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
-    navigate("/profile_page");
   };
 
   return (

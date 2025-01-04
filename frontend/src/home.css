@@ -19,7 +19,6 @@
 .main {
   flex: 1;
   padding: 6rem 2rem 2rem;
-  padding-top: 8rem; /* Adjust padding-top to start after the header */
   background-color: #f4f4f4;
   display: flex;
   flex-direction: column;
@@ -29,9 +28,9 @@
   height: 100%;
   box-sizing: border-box;
   overflow-y: auto;
-  padding-bottom: 3rem; /* Ensure content does not overlap with footer */
+  padding: 2rem;
+  padding-bottom: 3rem;
 }
-
 /* Notice Board Styling */
 .notice-board {
   background-color: #f8d7da;
@@ -170,56 +169,31 @@
 .footer button:hover {
   text-decoration: underline;
 }
-
-.post-container {
+.footer {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 1rem;
-  padding: 2rem;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 80%;
-  margin: 2rem auto;
-}
-
-.post-container textarea {
-  width: 100%;
-  height: 100px;
-  padding: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  resize: none;
-}
-
-.post-container button {
-  padding: 0.5rem 1rem;
   background-color: #54101d;
-  color: #d5c5ae;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.post-container button:hover {
-  background-color: #8d580d;
-}
-
-.button {
-  background-color: #54101d; /* Match the other buttons */
-  border: none;
-  color: #d5c5ae;
-  padding: 10px 20px;
   text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 4px;
+  font-size: 0.6rem;
+  color: #555555;
+  border-top: 1px solid #ddd;
+  position: fixed;
+  bottom: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 3rem;
 }
 
-.button:hover {
-  background-color: #8d580d; /* Match the hover color of the other buttons */
+.footer button {
+  background-color: transparent;
+  border: none;
+  color: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+
+.footer button:hover {
+  text-decoration: underline;
 }

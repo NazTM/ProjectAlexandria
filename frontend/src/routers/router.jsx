@@ -3,7 +3,6 @@ import App from "../App";
 import LoginSignup from "../LoginSignup";
 import FeedbackPage from "../feedback";
 import Profile from "../profile_page";
-import PostPage from "../post";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -21,14 +20,6 @@ const router = createBrowserRouter([
     path: "/profile_page",
     element: <Profile />,
   },
-
-  {
-    path: "/post",
-    element: <PostPage />,
-  },
-
-
-  
   /*
   {
     path: "/Library",
