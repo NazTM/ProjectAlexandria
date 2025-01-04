@@ -11,6 +11,7 @@ function PostPage() {
   const [question, setQuestion] = useState("");
   const [tags, setTags] = useState("");
   const [images, setImages] = useState([]);
+  const [previewImage, setPreviewImage] = useState(null);
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -25,7 +26,17 @@ function PostPage() {
   };
 
   const handleImageChange = (event) => {
-    setImages([...event.target.files]);
+    const files = [...event.target.files];
+    setImages(files);
+    if (files.length > 0) {
+      setPreviewImage(URL.createObjectURL(files[0]));
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setImages([]);
+    setPreviewImage(null);
+    document.querySelector('input[type="file"]').value = null;
   };
 
   const handleSubmit = () => {
@@ -49,17 +60,20 @@ function PostPage() {
       </header>
       <main className="main" style={{ textAlign: "left" }}>
         <div className="post-container">
+        <label><h1>Ask a question</h1></label>
+        <label>Enter your username (can be anonymous)</label>
           <input
             type="text"
-            placeholder="Enter your username..."
+            placeholder="Enter your username (can be anonymous)..."
             value={username}
             onChange={handleUsernameChange}
           />
           <textarea
-            placeholder="Write a question..."
+            placeholder="Write your question..."
             value={question}
             onChange={handleInputChange}
           ></textarea>
+          <label>Add tags (comma separated)</label>
           <input
             type="text"
             placeholder="Add tags (comma separated)..."
@@ -72,6 +86,17 @@ function PostPage() {
             multiple
             onChange={handleImageChange}
           />
+          {previewImage && (
+            <div className="image-preview">
+              <img
+                src={previewImage}
+                alt="Preview"
+                style={{ width: "100px", height: "100px", cursor: "pointer" }}
+                onClick={() => window.open(previewImage, "_blank")}
+              />
+              <button onClick={handleRemoveImage}>Remove Image</button>
+            </div>
+          )}
           <button onClick={handleSubmit}>Post</button>
         </div>
       </main>

@@ -205,3 +205,21 @@
 .post-container button:hover {
   background-color: #8d580d;
 }
+
+.button {
+  background-color: #54101d; /* Match the other buttons */
+  border: none;
+  color: #d5c5ae;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.button:hover {
+  background-color: #8d580d; /* Match the hover color of the other buttons */
+}
