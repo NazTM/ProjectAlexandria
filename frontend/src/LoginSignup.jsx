@@ -6,16 +6,16 @@ import Profile from "./profile_page";
 
 const LoginSignup = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState("");
+  const [username, setusername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isLogin) {
-      console.log("Logging in with", email, password);
+      console.log("Logging in with", username, password);
     } else {
-      console.log("Signing up with", email, password);
+      console.log("Signing up with", username, password);
     }
     navigate("/profile_page");
   };
@@ -35,12 +35,12 @@ const LoginSignup = () => {
         <h2>{isLogin ? "Login" : "Sign Up"}</h2>
         <form onSubmit={handleSubmit}>
           <div className="input-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="username">username</label>
             <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="username"
+              id="username"
+              value={username}
+              onChange={(e) => setusername(e.target.value)}
               required
             />
           </div>
@@ -67,8 +67,6 @@ const LoginSignup = () => {
       </div>
     </div>
   );
-
-  
 };
 
 export default LoginSignup;
