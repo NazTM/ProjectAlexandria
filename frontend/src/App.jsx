@@ -6,6 +6,7 @@ import Post_structure from "./components/post_structure";
 import LoginSignup from "./LoginSignup";
 //import Navbar from "./components/navbar";
 import FeedbackPage from "./feedback";
+import PostPage from "./post";
 
 function App() {
   const [post, setPost] = useState([
@@ -37,6 +38,7 @@ function App() {
           <Routes>
             <Route path="/feedback" element={<FeedbackPage />} />
             <Route path="/LoginSignup" element={<LoginSignup />} />
+            <Route path="/post" element={<PostPage />} />
           </Routes>
         </header>
 
