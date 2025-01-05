@@ -11,12 +11,6 @@ const postSchema = new mongoose.Schema({
     required: true,
     default: "Question?",
   },
-  content: {
-    type: String,
-    required: true,
-    default:
-      "This is a sample post content. The first part of the post content is for the post creator to go into detail about their question.",
-  },
   comments: {
     type: [String],
     default: [

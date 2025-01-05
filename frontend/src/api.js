@@ -18,4 +18,12 @@ export const updateBio = (username, bio) => {
   return axios.put(`${API_URL}/users/${username}/bio`, { bio });
 };
 
+export const createPost = (formData) => {
+  return axios.post(`${API_URL}/posts`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
 // Add other API methods as needed

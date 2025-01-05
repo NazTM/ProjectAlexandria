@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Link, Routes, Route } from "react-router-dom";
+import { Link, Routes, Route, useNavigate } from "react-router-dom"; // Import useNavigate
 import "./post.css"; // Import the post.css file
 import LoginSignup from "./LoginSignup";
 import FeedbackPage from "./feedback";
 import axios from "axios";
+import { createPost } from "./api"; // Import the createPost function
 
 function PostPage() {
   const [username, setUsername] = useState("");
@@ -11,6 +12,7 @@ function PostPage() {
   const [tags, setTags] = useState("");
   const [images, setImages] = useState([]);
   const [previewImage, setPreviewImage] = useState(null);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -53,17 +55,10 @@ function PostPage() {
         formData.append(`images[${index}]`, image);
       });
 
-      const response = await axios.post(
-        "http://localhost:5000/api/posts",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await createPost(formData); // Use createPost function from api.js
 
       console.log("Post submitted successfully:", response.data);
+      navigate("/"); // Navigate back to home page
     } catch (error) {
       console.error("Error submitting post:", error);
     }

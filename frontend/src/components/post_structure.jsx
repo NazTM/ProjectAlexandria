@@ -44,12 +44,8 @@ function Post_structure() {
       <div className="post">
         <h2 className="post-title">Question?</h2>{" "}
         {/*must be filled in when creating post */}
-        <h3 className="post-content">
-          This is a sample post content. The first part of the post content is
-          for the post creator to go into detail about their question.
-        </h3>
         <ul className="post-list">
-          {Array.from({ length: 5 }).map((_, index) => (
+          {Array.from({ length: 2 }).map((_, index) => (
             /*array length change to number of actual comments later. */
             <li key={index}>
               <p className="post-content">
