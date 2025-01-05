@@ -1,8 +1,7 @@
 //root component
 import { useState } from "react";
 import { Link, Routes, Route } from "react-router-dom";
-import "./home.css";
-import Post_structure from "./components/post_structure";
+import "./post.css"; // Import the post.css file
 import LoginSignup from "./LoginSignup";
 import FeedbackPage from "./feedback";
 
@@ -53,15 +52,17 @@ function PostPage() {
         <Link to="/">Project Alexandria</Link>
         <Link to="/library">Library</Link>
         <Link to="/feedback">Feedback</Link>
-        <Routes>
-          <Route path="/feedback" element={<FeedbackPage />} />
-          <Route path="/LoginSignup" element={<LoginSignup />} />
-        </Routes>
       </header>
+      <Routes>
+        <Route path="/feedback" element={<FeedbackPage />} />
+        <Route path="/LoginSignup" element={<LoginSignup />} />
+      </Routes>
       <main className="main" style={{ textAlign: "left" }}>
         <div className="post-container">
-        <label><h1>Ask a question</h1></label>
-        <label>Enter your username (can be anonymous)</label>
+          <label>
+            <h1>Ask a question</h1>
+          </label>
+          <label>Enter your username (can be anonymous)</label>
           <input
             type="text"
             placeholder="Enter your username (can be anonymous)..."
@@ -81,11 +82,7 @@ function PostPage() {
             onChange={handleTagsChange}
           />
           <label>Upload an image</label>
-          <input
-            type="file"
-            multiple
-            onChange={handleImageChange}
-          />
+          <input type="file" multiple onChange={handleImageChange} />
           {previewImage && (
             <div className="image-preview">
               <img

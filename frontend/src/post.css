@@ -14,6 +14,7 @@ header {
   color: #d5c5ae;
   padding: 2rem 2rem;
   text-align: left;
+  position: relative; /* Ensure header is positioned correctly */
 }
 header a {
   padding: 1rem;
@@ -31,12 +32,21 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center; /* Center the main tag vertically */
   padding: 1rem;
+  margin-top: 2rem; /* Add margin-top to ensure main is not hidden */
+  z-index: 1; /* Ensure header is above other elements */
 }
 .post-container {
   width: 100%;
   max-width: 600px;
+  margin: auto; /* Center horizontally */
   margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+  justify-content: center; /* Center content vertically */
+  height: 100vh; /* Full viewport height */
 }
 .post-container textarea {
   width: 100%;
@@ -85,9 +95,8 @@ main {
   height: 50px;
   padding: 0.5rem;
   margin-bottom: 0.5rem;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
-
 
 .post-button {
   padding: 0.5rem 1rem;

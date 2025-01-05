@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const User = require("./models/user");
+const Post = require("./models/postsch");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -136,6 +137,82 @@ app.delete("/api/users/:id", async (req, res) => {
   } catch (error) {
     console.error("Error deleting user:", error);
     res.status(400).send("Error deleting user");
+  }
+});
+
+// Endpoint to fetch posts from the database
+app.get("/api/posts", async (req, res) => {
+  try {
+    const posts = await Post.find();
+    res.json(posts);
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    res.status(500).send(error);
+  }
+});
+
+// Endpoint to fetch a post by ID
+app.get("/api/posts/:id", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (post) {
+      res.json(post);
+    } else {
+      res.status(404).send("Post not found");
+    }
+  } catch (error) {
+    console.error("Error fetching post:", error);
+    res.status(500).send("Server error");
+  }
+});
+
+// POST endpoint to add a new post
+app.post("/api/posts", async (req, res) => {
+  const { authorName, question, content, comments, tags } = req.body;
+  try {
+    const newPost = new Post({
+      authorName,
+      question,
+      content,
+      comments,
+      tags,
+    });
+    const savedPost = await newPost.save();
+    console.log("Post saved:", savedPost); // Add logging
+    res.status(201).json(savedPost);
+  } catch (error) {
+    console.error("Error saving post:", error);
+    res.status(400).send("Error saving post");
+  }
+});
+
+// PUT endpoint to update a post
+app.put("/api/posts/:id", async (req, res) => {
+  try {
+    const { authorName, question, content, comments, tags } = req.body;
+    const updateData = { authorName, question, content, comments, tags };
+    const updatedPost = await Post.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
+    console.log("Post updated:", updatedPost); // Add logging
+    res.json(updatedPost);
+  } catch (error) {
+    console.error("Error updating post:", error);
+    res.status(400).send("Error updating post");
+  }
+});
+
+// DELETE endpoint to delete a post
+app.delete("/api/posts/:id", async (req, res) => {
+  try {
+    await Post.findByIdAndDelete(req.params.id);
+    console.log("Post deleted:", req.params.id); // Add logging
+    res.status(204).send();
+  } catch (error) {
+    console.error("Error deleting post:", error);
+    res.status(400).send("Error deleting post");
   }
 });
 

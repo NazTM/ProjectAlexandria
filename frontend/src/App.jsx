@@ -6,34 +6,14 @@ import Post_structure from "./components/post_structure";
 import LoginSignup from "./LoginSignup";
 import FeedbackPage from "./feedback";
 import Profile from "./profile_page";
-//import { fetchItems } from "./api";
+import PostPage from "./post";
 
 function App() {
-  const [post, setPost] = useState([
-    { Post_structure },
-    { Post_structure },
-    { Post_structure },
-    { Post_structure },
-    { Post_structure },
-    { Post_structure },
-  ]);
+  const [post, setPost] = useState([{ Post_structure }]);
   const [name, setName] = useState("Hritik");
   const [notice, setNotice] = useState(
     "Welcome to Project Alexandria! Enjoy browsing and feel free to ask questions."
   );
-
-  useEffect(() => {
-    const getItems = async () => {
-      try {
-        const data = await fetchItems();
-        setItems(data);
-      } catch (error) {
-        console.error("Error fetching items:", error);
-      }
-    };
-
-    getItems();
-  }, []);
 
   const handleClick = () => {
     setName("Hrithik.");
@@ -48,6 +28,7 @@ function App() {
         <Link to="/feedback">Feedback</Link>
         <Link to="/LoginSignup">Login/Signup</Link>
         <Routes>
+          <Route path="/post" element={<PostPage />} />
           <Route path="/feedback" element={<FeedbackPage />} />
           <Route path="/LoginSignup" element={<LoginSignup />} />
           <Route path="/profile_page" element={<Profile />} />

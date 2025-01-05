@@ -15,7 +15,6 @@ function Post_structure() {
 
   const formatDate = (date) => {
     const options = {
-      weekday: "short",
       year: "numeric",
       month: "short",
       day: "2-digit",
