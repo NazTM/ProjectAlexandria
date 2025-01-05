@@ -1,9 +1,9 @@
-//root component
 import { useState } from "react";
 import { Link, Routes, Route } from "react-router-dom";
 import "./post.css"; // Import the post.css file
 import LoginSignup from "./LoginSignup";
 import FeedbackPage from "./feedback";
+import axios from "axios";
 
 function PostPage() {
   const [username, setUsername] = useState("");
@@ -38,12 +38,35 @@ function PostPage() {
     document.querySelector('input[type="file"]').value = null;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log("Username submitted:", username);
     console.log("Question submitted:", question);
     console.log("Tags submitted:", tags);
     console.log("Images submitted:", images);
-    // Add your submit logic here
+
+    try {
+      const formData = new FormData();
+      formData.append("authorName", username);
+      formData.append("question", question);
+      formData.append("tags", tags);
+      images.forEach((image, index) => {
+        formData.append(`images[${index}]`, image);
+      });
+
+      const response = await axios.post(
+        "http://localhost:5000/api/posts",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("Post submitted successfully:", response.data);
+    } catch (error) {
+      console.error("Error submitting post:", error);
+    }
   };
 
   return (

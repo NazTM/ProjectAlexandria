@@ -9,8 +9,7 @@ const Profile = () => {
   // State to manage bio, bookmarks, and username
   const [bio, setBio] = useState("");
   const [bookmarkedPosts, setBookmarkedPosts] = useState([
-    { id: 1, title: "Post 1", content: "Content for Post 1" },
-    { id: 2, title: "Post 2", content: "Content for Post 2" }, // Example bookmarks, replace with actual data
+    { id: 1, title: "Post 1", content: "Content for Post 1" }, // Example bookmarks, replace with actual data
   ]);
   const [username, setUsername] = useState(""); // Add state for username
 

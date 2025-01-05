@@ -3,6 +3,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const multer = require("multer");
 const User = require("./models/user");
 const Post = require("./models/postsch");
 
@@ -20,6 +21,8 @@ db.on("error", console.error.bind(console, "connection error:"));
 
 app.use(cors());
 app.use(bodyParser.json());
+
+const upload = multer({ storage: multer.memoryStorage() });
 
 app.get("/", (req, res) => {
   res.send("Hello from the backend!");
@@ -167,15 +170,15 @@ app.get("/api/posts/:id", async (req, res) => {
 });
 
 // POST endpoint to add a new post
-app.post("/api/posts", async (req, res) => {
-  const { authorName, question, content, comments, tags } = req.body;
+app.post("/api/posts", upload.array("images"), async (req, res) => {
+  const { authorName, question, tags } = req.body;
+  const images = req.files.map((file) => file.buffer);
   try {
     const newPost = new Post({
       authorName,
       question,
-      content,
-      comments,
-      tags,
+      tags: tags.split(",").map((tag) => tag.trim()),
+      images,
     });
     const savedPost = await newPost.save();
     console.log("Post saved:", savedPost); // Add logging
