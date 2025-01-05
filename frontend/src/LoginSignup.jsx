@@ -21,7 +21,7 @@ const LoginSignup = () => {
           password,
         });
         if (response.status === 200) {
-          navigate("/profile_page");
+          navigate("/profile_page", { state: { username } }); // Pass username to profile page
         }
       } else {
         console.log("Signing up with", username, password);
@@ -30,7 +30,7 @@ const LoginSignup = () => {
           password,
         });
         if (response.status === 201) {
-          navigate("/profile_page");
+          navigate("/profile_page", { state: { username } }); // Pass username to profile page
         }
       }
     } catch (error) {

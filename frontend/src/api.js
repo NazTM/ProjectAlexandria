@@ -10,4 +10,12 @@ export const login = (username, password) => {
   return axios.post(`${API_URL}/login`, { username, password });
 };
 
+export const getProfile = (username) => {
+  return axios.get(`${API_URL}/users/${username}`);
+};
+
+export const updateBio = (username, bio) => {
+  return axios.put(`${API_URL}/users/${username}/bio`, { bio });
+};
+
 // Add other API methods as needed

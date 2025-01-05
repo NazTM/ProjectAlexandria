@@ -35,6 +35,21 @@ app.get("/api/users", async (req, res) => {
   }
 });
 
+// Endpoint to fetch a user's profile by username
+app.get("/api/users/:username", async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.username });
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).send("User not found");
+    }
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    res.status(500).send("Server error");
+  }
+});
+
 // POST endpoint to add a new user
 app.post("/api/signup", async (req, res) => {
   const { username, password } = req.body;
@@ -89,6 +104,26 @@ app.put("/api/users/:id", async (req, res) => {
   } catch (error) {
     console.error("Error updating user:", error);
     res.status(400).send("Error updating user");
+  }
+});
+
+// Endpoint to update a user's bio
+app.put("/api/users/:username/bio", async (req, res) => {
+  const { bio } = req.body;
+  try {
+    const user = await User.findOneAndUpdate(
+      { username: req.params.username },
+      { bio },
+      { new: true }
+    );
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).send("User not found");
+    }
+  } catch (error) {
+    console.error("Error updating bio:", error);
+    res.status(500).send("Server error");
   }
 });
 

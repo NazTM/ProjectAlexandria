@@ -10,6 +10,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true, // Password is required
   },
+  bio: {
+    type: String, // Bio is optional
+  },
 });
 
 // Create the User model based on the schema
