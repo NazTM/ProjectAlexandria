@@ -209,6 +209,25 @@ app.put("/api/posts/:id", async (req, res) => {
   }
 });
 
+// PUT endpoint to add a comment to a post
+app.put("/api/posts/:id/comments", async (req, res) => {
+  try {
+    const { comment } = req.body;
+    const post = await Post.findById(req.params.id);
+    if (post) {
+      post.comments.push(comment);
+      await post.save();
+      console.log("Comment added to post:", post); // Add logging
+      res.json(post);
+    } else {
+      res.status(404).send("Post not found");
+    }
+  } catch (error) {
+    console.error("Error adding comment:", error);
+    res.status(500).send("Server error");
+  }
+});
+
 // DELETE endpoint to delete a post
 app.delete("/api/posts/:id", async (req, res) => {
   try {

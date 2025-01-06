@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import "./post.css"; // Import the CSS file
 
 function Post_structure({ post }) {
@@ -6,6 +7,7 @@ function Post_structure({ post }) {
   const [hasReacted, setHasReacted] = useState(false); // Tracks if the user has liked or disliked
   const [likes, setLikes] = useState(post.likes); // State for likes count
   const [dislikes, setDislikes] = useState(post.dislikes);
+  const [newComment, setNewComment] = useState("");
 
   const toggleFlag = () => {
     setIsFlagged(!isFlagged);
@@ -22,6 +24,27 @@ function Post_structure({ post }) {
     if (!hasReacted) {
       setDislikes(dislikes + 1);
       setHasReacted(true);
+    }
+  };
+
+  const handleCommentChange = (e) => {
+    setNewComment(e.target.value);
+  };
+
+  const handleCommentSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/posts/${post._id}/comments`,
+        {
+          comment: newComment,
+        }
+      );
+      setNewComment("");
+      // Update the post comments locally
+      post.comments.push(newComment);
+    } catch (error) {
+      console.error("Error adding comment:", error);
     }
   };
 
@@ -74,6 +97,16 @@ function Post_structure({ post }) {
             {isFlagged ? "Unflag" : "Flag"}
           </button>
         </div>
+        <form onSubmit={handleCommentSubmit}>
+          <input
+            type="text"
+            value={newComment}
+            onChange={handleCommentChange}
+            placeholder="Add a comment"
+            required
+          />
+          <button type="submit">Submit</button>
+        </form>
       </div>
     </>
   );
