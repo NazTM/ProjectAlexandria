@@ -1,12 +1,17 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 import axios from "axios";
 import "./post.css"; // Import the CSS file
 
 function Post_structure({ post }) {
-  const [isFlagged, setIsFlagged] = useState(post.isFlagged);
+  if (!post) {
+    return <div>Post data is not available.</div>;
+  }
+
+  const [isFlagged, setIsFlagged] = useState(post?.isFlagged || false); // Provide default value
   const [hasReacted, setHasReacted] = useState(false); // Tracks if the user has liked or disliked
-  const [likes, setLikes] = useState(post.likes); // State for likes count
-  const [dislikes, setDislikes] = useState(post.dislikes);
+  const [likes, setLikes] = useState(post?.likes || 0); // Provide default value
+  const [dislikes, setDislikes] = useState(post?.dislikes || 0); // Provide default value
   const [newComment, setNewComment] = useState("");
 
   const toggleFlag = async () => {
@@ -68,11 +73,16 @@ function Post_structure({ post }) {
       <div className="post">
         <h2 className="post-title">{post.question}</h2>
         <ul className="post-list">
-          {post.comments.map((comment, index) => (
-            <li key={index}>
-              <p className="post-content">{comment}</p>
-            </li>
-          ))}
+          {(post.comments || []).map(
+            (
+              comment,
+              index // Ensure comments is an array
+            ) => (
+              <li key={index}>
+                <p className="post-content">{comment}</p>
+              </li>
+            )
+          )}
         </ul>
         <div className="post-footer">
           <span className="post-author">By {post.authorName}.</span>
@@ -126,5 +136,29 @@ function Post_structure({ post }) {
     </>
   );
 }
+
+Post_structure.propTypes = {
+  post: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    question: PropTypes.string.isRequired,
+    comments: PropTypes.arrayOf(PropTypes.string).isRequired,
+    authorName: PropTypes.string.isRequired,
+    tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+    likes: PropTypes.number,
+    dislikes: PropTypes.number,
+    date: PropTypes.string.isRequired,
+    isFlagged: PropTypes.bool,
+  }).isRequired,
+};
+
+Post_structure.defaultProps = {
+  post: {
+    likes: 0,
+    dislikes: 0,
+    isFlagged: false,
+    comments: [], // Ensure comments is an array
+    tags: [], // Ensure tags is an array
+  },
+};
 
 export default Post_structure;

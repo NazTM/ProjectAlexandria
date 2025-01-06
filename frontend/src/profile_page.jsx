@@ -9,7 +9,17 @@ const Profile = () => {
   // State to manage bio, bookmarks, and username
   const [bio, setBio] = useState("");
   const [bookmarkedPosts, setBookmarkedPosts] = useState([
-    { id: 1, title: "Post 1", content: "Content for Post 1" }, // Example bookmarks, replace with actual data
+    {
+      id: 1,
+      title: "Post 1",
+      content: "Content for Post 1",
+      comments: [],
+      tags: [],
+      authorName: "",
+      date: "",
+      likes: 0,
+      dislikes: 0,
+    }, // Example bookmarks, replace with actual data
   ]);
   const [username, setUsername] = useState(""); // Add state for username
 
@@ -57,6 +67,12 @@ const Profile = () => {
         id: newPostId,
         title: `Post ${newPostId}`,
         content: `Content for Post ${newPostId}`,
+        comments: [], // Ensure comments is an array
+        tags: [], // Ensure tags is an array
+        authorName: "",
+        date: "",
+        likes: 0,
+        dislikes: 0,
       },
     ]);
   };
@@ -85,8 +101,7 @@ const Profile = () => {
         bookmarkedPosts.map((post) => (
           <Post_structure
             key={post.id}
-            title={post.title}
-            content={post.content}
+            post={post} // Pass the entire post object
           />
         ))
       ) : (
