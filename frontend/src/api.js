@@ -31,4 +31,32 @@ export const getCreatedPosts = (username) => {
   return axios.get(`${API_URL}/users/${username}/createdPosts`);
 };
 
+// ==================== FEEDBACK APIs ====================
+
+// Submit feedback
+export const submitFeedback = (userId, content) => {
+  return axios.post(`${API_URL}/feedback`, { userId, content });
+};
+
+// Get all feedback
+export const fetchFeedback = () => {
+  return axios.get(`${API_URL}/feedback`);
+};
+
+// Delete feedback by ID
+export const deleteFeedback = (id) => {
+  return axios.delete(`${API_URL}/feedback/${id}`);
+};
+
+// Flag feedback by ID
+export const flagFeedback = (id) => {
+  return axios.post(`${API_URL}/feedback/${id}/flag`);
+};
+
+// Unflag feedback by ID
+export const unflagFeedback = (id) => {
+  return axios.post(`${API_URL}/feedback/${id}/unflag`);
+};
+
 // Add other API methods as needed
+

@@ -354,6 +354,47 @@ app.delete("/api/posts/:id", async (req, res) => {
   }
 });
 
+// Feedback model
+// POST endpoint to submit feedback
+app.post("/api/feedback", async (req, res) => {
+  const { userId, content } = req.body;
+  try {
+    const feedback = new Feedback({
+      user: userId,
+      content,
+    });
+    const savedFeedback = await feedback.save();
+    console.log("Feedback saved:", savedFeedback);
+    res.status(201).json(savedFeedback);
+  } catch (error) {
+    console.error("Error saving feedback:", error);
+    res.status(400).send("Error saving feedback");
+  }
+});
+
+// GET endpoint to fetch all feedbacks
+app.get("/api/feedback", async (req, res) => {
+  try {
+    const feedbackList = await Feedback.find().populate("user", "username"); // Populate user details
+    res.json(feedbackList);
+  } catch (error) {
+    console.error("Error fetching feedbacks:", error);
+    res.status(500).send(error);
+  }
+});
+
+// DELETE endpoint to delete feedback
+app.delete("/api/feedback/:id", async (req, res) => {
+  try {
+    await Feedback.findByIdAndDelete(req.params.id);
+    console.log("Feedback deleted:", req.params.id);
+    res.status(204).send();
+  } catch (error) {
+    console.error("Error deleting feedback:", error);
+    res.status(400).send("Error deleting feedback");
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
