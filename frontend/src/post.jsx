@@ -52,7 +52,7 @@ function PostPage() {
       formData.append("question", question);
       formData.append("tags", tags);
       images.forEach((image, index) => {
-        formData.append(`images[${index}]`, image);
+        formData.append(`images`, image); // Ensure field name matches 'images'
       });
 
       const response = await createPost(formData); // Use createPost function from api.js

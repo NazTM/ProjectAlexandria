@@ -7,13 +7,26 @@ import LoginSignup from "./LoginSignup";
 import FeedbackPage from "./feedback";
 import Profile from "./profile_page";
 import PostPage from "./post";
+import axios from "axios";
 
 function App() {
-  const [post, setPost] = useState([{ Post_structure }]);
+  const [posts, setPosts] = useState([]);
   const [name, setName] = useState("Hritik");
   const [notice, setNotice] = useState(
     "Welcome to Project Alexandria! Enjoy browsing and feel free to ask questions."
   );
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/posts");
+        setPosts(response.data);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+    fetchPosts();
+  }, []);
 
   const handleClick = () => {
     setName("Hrithik.");
@@ -40,8 +53,8 @@ function App() {
           <p>{notice}</p> {/* Display the notice message */}
         </div>
         <div className="post-grid">
-          {post.map((_, index) => (
-            <Post_structure key={index} />
+          {posts.map((post) => (
+            <Post_structure key={post._id} post={post} />
           ))}
         </div>
       </main>
