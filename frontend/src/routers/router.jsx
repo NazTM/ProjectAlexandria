@@ -4,6 +4,8 @@ import LoginSignup from "../LoginSignup";
 import FeedbackPage from "../feedback";
 import Profile from "../profile_page";
 import PostPage from "../post";
+import ResourceBox from "../Library";
+import Library from "../Library";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -25,21 +27,12 @@ const router = createBrowserRouter([
     path: "/post",
     element: <PostPage />,
   },
-  /*
-  {
-    path: "/Library",
-    element: <Library />,
-  },
 
   {
-    path: "/Ask a question", 
-    element: <Ask a question />,
+    path: "/library",
+    element: <ResourceBox />,
+    children: [],
   },
-
-  {
-    path: "/Feedback", 
-    element: <Feedback />,
-  },*/
 ]);
 
 export default router;
