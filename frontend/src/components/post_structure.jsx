@@ -9,21 +9,39 @@ function Post_structure({ post }) {
   const [dislikes, setDislikes] = useState(post.dislikes);
   const [newComment, setNewComment] = useState("");
 
-  const toggleFlag = () => {
-    setIsFlagged(!isFlagged);
-  };
-
-  const handleLike = () => {
-    if (!hasReacted) {
-      setLikes(likes + 1);
-      setHasReacted(true);
+  const toggleFlag = async () => {
+    try {
+      const updatedFlag = !isFlagged;
+      await axios.put(`http://localhost:5000/api/posts/${post._id}/flag`, {
+        isFlagged: updatedFlag,
+      });
+      setIsFlagged(updatedFlag);
+    } catch (error) {
+      console.error("Error updating flag status:", error);
     }
   };
 
-  const handleDislike = () => {
+  const handleLike = async () => {
     if (!hasReacted) {
-      setDislikes(dislikes + 1);
-      setHasReacted(true);
+      try {
+        await axios.put(`http://localhost:5000/api/posts/${post._id}/like`);
+        setLikes(likes + 1);
+        setHasReacted(true);
+      } catch (error) {
+        console.error("Error liking post:", error);
+      }
+    }
+  };
+
+  const handleDislike = async () => {
+    if (!hasReacted) {
+      try {
+        await axios.put(`http://localhost:5000/api/posts/${post._id}/dislike`);
+        setDislikes(dislikes + 1);
+        setHasReacted(true);
+      } catch (error) {
+        console.error("Error disliking post:", error);
+      }
     }
   };
 
@@ -34,12 +52,9 @@ function Post_structure({ post }) {
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(
-        `http://localhost:5000/api/posts/${post._id}/comments`,
-        {
-          comment: newComment,
-        }
-      );
+      await axios.put(`http://localhost:5000/api/posts/${post._id}/comments`, {
+        comment: newComment,
+      });
       setNewComment("");
       // Update the post comments locally
       post.comments.push(newComment);

@@ -228,6 +228,61 @@ app.put("/api/posts/:id/comments", async (req, res) => {
   }
 });
 
+// PUT endpoint to like a post
+app.put("/api/posts/:id/like", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (post) {
+      post.likes += 1;
+      await post.save();
+      console.log("Post liked:", post); // Add logging
+      res.json(post);
+    } else {
+      res.status(404).send("Post not found");
+    }
+  } catch (error) {
+    console.error("Error liking post:", error);
+    res.status(500).send("Server error");
+  }
+});
+
+// PUT endpoint to dislike a post
+app.put("/api/posts/:id/dislike", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (post) {
+      post.dislikes += 1;
+      await post.save();
+      console.log("Post disliked:", post); // Add logging
+      res.json(post);
+    } else {
+      res.status(404).send("Post not found");
+    }
+  } catch (error) {
+    console.error("Error disliking post:", error);
+    res.status(500).send("Server error");
+  }
+});
+
+// PUT endpoint to flag a post
+app.put("/api/posts/:id/flag", async (req, res) => {
+  try {
+    const { isFlagged } = req.body;
+    const post = await Post.findById(req.params.id);
+    if (post) {
+      post.isFlagged = isFlagged;
+      await post.save();
+      console.log("Post flag status updated:", post); // Add logging
+      res.json(post);
+    } else {
+      res.status(404).send("Post not found");
+    }
+  } catch (error) {
+    console.error("Error updating flag status:", error);
+    res.status(500).send("Server error");
+  }
+});
+
 // DELETE endpoint to delete a post
 app.delete("/api/posts/:id", async (req, res) => {
   try {
