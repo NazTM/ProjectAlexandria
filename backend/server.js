@@ -219,6 +219,13 @@ app.post("/api/posts", upload.array("images"), async (req, res) => {
     });
     const savedPost = await newPost.save();
     console.log("Post saved:", savedPost); // Add logging
+
+    // Update the user's createdPosts array
+    await User.findOneAndUpdate(
+      { username: authorName },
+      { $push: { createdPosts: savedPost._id } }
+    );
+
     res.status(201).json(savedPost);
   } catch (error) {
     console.error("Error saving post:", error);

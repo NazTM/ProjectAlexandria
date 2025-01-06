@@ -26,8 +26,4 @@ export const createPost = (formData) => {
   });
 };
 
-export const getCreatedPosts = (username) => {
-  return axios.get(`${API_URL}/users/${username}/createdPosts`);
-};
-
 // Add other API methods as needed

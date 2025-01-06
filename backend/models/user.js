@@ -19,6 +19,12 @@ const userSchema = new mongoose.Schema({
       ref: "Post", // Reference to the Post model
     },
   ],
+  createdPosts: [
+    {
+      type: mongoose.Schema.Types.ObjectId, // CreatedPosts is an array of post IDs
+      ref: "Post", // Reference to the Post model
+    },
+  ],
 });
 
 // Create the User model based on the schema

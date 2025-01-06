@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import "./profile.css";
 import Post_structure from "./components/post_structure";
 import "./post.css";
-import { getProfile, updateBio, getCreatedPosts } from "./api"; // Import the new API method
+import { getProfile, updateBio } from "./api"; // Import the new API method
 import axios from "axios"; // Import axios for API calls
 
 const Profile = () => {
@@ -30,8 +30,8 @@ const Profile = () => {
         setBookmarkedPosts(bookmarkedPostsResponse.data);
 
         // Fetch created posts
-        const createdPostsResponse = await getCreatedPosts(
-          location.state.username
+        const createdPostsResponse = await axios.get(
+          `http://localhost:5000/api/users/${location.state.username}/createdPosts`
         );
         setCreatedPosts(createdPostsResponse.data);
       } catch (error) {
