@@ -33,6 +33,7 @@ const Profile = () => {
         const createdPostsResponse = await getCreatedPosts(
           location.state.username
         );
+        console.log("Created Posts Response:", createdPostsResponse.data); // Debug log
         setCreatedPosts(createdPostsResponse.data);
       } catch (error) {
         console.error("Error fetching profile:", error);

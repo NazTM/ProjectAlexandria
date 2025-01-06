@@ -168,6 +168,23 @@ app.get("/api/users/:username/bookmarks", async (req, res) => {
   }
 });
 
+// Endpoint to fetch posts created by a user
+app.get("/api/users/:username/createdPosts", async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.username }).populate(
+      "createdPosts"
+    );
+    if (user) {
+      res.json(user.createdPosts);
+    } else {
+      res.status(404).send("User not found");
+    }
+  } catch (error) {
+    console.error("Error fetching created posts:", error);
+    res.status(500).send("Server error");
+  }
+});
+
 // DELETE endpoint to delete a user
 app.delete("/api/users/:id", async (req, res) => {
   try {
