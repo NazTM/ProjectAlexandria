@@ -4,23 +4,12 @@ import "./profile.css";
 import Post_structure from "./components/post_structure";
 import "./post.css";
 import { getProfile, updateBio } from "./api"; // Import the new API method
+import axios from "axios"; // Import axios for API calls
 
 const Profile = () => {
   // State to manage bio, bookmarks, and username
   const [bio, setBio] = useState("");
-  const [bookmarkedPosts, setBookmarkedPosts] = useState([
-    {
-      id: 1,
-      title: "Post 1",
-      content: "Content for Post 1",
-      comments: [],
-      tags: [],
-      authorName: "",
-      date: "",
-      likes: 0,
-      dislikes: 0,
-    }, // Example bookmarks, replace with actual data
-  ]);
+  const [bookmarkedPosts, setBookmarkedPosts] = useState([]);
   const [username, setUsername] = useState(""); // Add state for username
 
   const location = useLocation();
@@ -32,7 +21,12 @@ const Profile = () => {
         const response = await getProfile(location.state.username); // Use username from navigation state
         setUsername(response.data.username);
         setBio(response.data.bio || ""); // Set bio from response
-        // Set other profile data as needed
+
+        // Fetch bookmarked posts
+        const bookmarkedPostsResponse = await axios.get(
+          `http://localhost:5000/api/users/${location.state.username}/bookmarks`
+        );
+        setBookmarkedPosts(bookmarkedPostsResponse.data);
       } catch (error) {
         console.error("Error fetching profile:", error);
       }
@@ -100,16 +94,13 @@ const Profile = () => {
       {bookmarkedPosts.length > 0 ? (
         bookmarkedPosts.map((post) => (
           <Post_structure
-            key={post.id}
+            key={post._id}
             post={post} // Pass the entire post object
           />
         ))
       ) : (
         <p>No bookmarks yet!</p>
       )}
-      <button onClick={addBookmark} className="add-bookmark-button">
-        Add Bookmark
-      </button>
       {/* Logout Link */}
       <Link to="/" className="logout-button">
         Logout

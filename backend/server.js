@@ -133,6 +133,41 @@ app.put("/api/users/:username/bio", async (req, res) => {
   }
 });
 
+// PUT endpoint to bookmark a post for a user
+app.put("/api/users/:username/bookmark", async (req, res) => {
+  try {
+    const { postId } = req.body;
+    const user = await User.findOne({ username: req.params.username });
+    if (user) {
+      user.bookmarks.push(postId);
+      await user.save();
+      res.json(user);
+    } else {
+      res.status(404).send("User not found");
+    }
+  } catch (error) {
+    console.error("Error bookmarking post:", error);
+    res.status(500).send("Server error");
+  }
+});
+
+// Endpoint to fetch bookmarked posts for a user
+app.get("/api/users/:username/bookmarks", async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.username }).populate(
+      "bookmarks"
+    );
+    if (user) {
+      res.json(user.bookmarks);
+    } else {
+      res.status(404).send("User not found");
+    }
+  } catch (error) {
+    console.error("Error fetching bookmarks:", error);
+    res.status(500).send("Server error");
+  }
+});
+
 // DELETE endpoint to delete a user
 app.delete("/api/users/:id", async (req, res) => {
   try {

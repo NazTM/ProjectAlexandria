@@ -13,6 +13,7 @@ function Post_structure({ post }) {
   const [likes, setLikes] = useState(post?.likes || 0); // Provide default value
   const [dislikes, setDislikes] = useState(post?.dislikes || 0); // Provide default value
   const [newComment, setNewComment] = useState("");
+  const [username, setUsername] = useState(""); // New state for username
 
   const toggleFlag = async () => {
     try {
@@ -65,6 +66,18 @@ function Post_structure({ post }) {
       post.comments.push(newComment);
     } catch (error) {
       console.error("Error adding comment:", error);
+    }
+  };
+
+  const handleBookmarkSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.put(`http://localhost:5000/api/users/${username}/bookmark`, {
+        postId: post._id,
+      });
+      setUsername(""); // Clear the username input field
+    } catch (error) {
+      console.error("Error adding bookmark:", error);
     }
   };
 
@@ -131,6 +144,16 @@ function Post_structure({ post }) {
             required
           />
           <button type="submit">Submit</button>
+        </form>
+        <form onSubmit={handleBookmarkSubmit}>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Enter your username"
+            required
+          />
+          <button type="submit">Bookmark</button>
         </form>
       </div>
     </>

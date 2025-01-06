@@ -13,6 +13,12 @@ const userSchema = new mongoose.Schema({
   bio: {
     type: String, // Bio is optional
   },
+  bookmarks: [
+    {
+      type: mongoose.Schema.Types.ObjectId, // Bookmarks is an array of post IDs
+      ref: "Post", // Reference to the Post model
+    },
+  ],
 });
 
 // Create the User model based on the schema
