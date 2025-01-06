@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
+import Post_structure from "./components/post_structure";
 import "./Feedback.css";
 
 const FeedbackPage = () => {
   const [feedback, setFeedback] = useState("");
   const [feedbackList, setFeedbackList] = useState([]);
   const [flaggedComments, setFlaggedComments] = useState([]);
+  const [flaggedPosts, setFlaggedPosts] = useState([]); // New state for flagged posts
+  const [feedbackComments, setFeedbackComments] = useState({}); // New state for feedback comments
 
   useEffect(() => {
     // Fetch feedback list from localStorage on component mount
@@ -25,6 +29,19 @@ const FeedbackPage = () => {
       "flaggedCommentsUpdated",
       handleFlaggedCommentsUpdated
     );
+
+    // Fetch flagged posts from the server
+    const fetchFlaggedPosts = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/posts");
+        const flagged = response.data.filter((post) => post.isFlagged);
+        setFlaggedPosts(flagged);
+      } catch (error) {
+        console.error("Error fetching flagged posts:", error);
+      }
+    };
+
+    fetchFlaggedPosts();
 
     return () => {
       window.removeEventListener(
@@ -91,6 +108,32 @@ const FeedbackPage = () => {
     newWindow.document.close();
   };
 
+  const handleCommentChange = (feedbackIndex, comment) => {
+    setFeedbackComments({
+      ...feedbackComments,
+      [feedbackIndex]: comment,
+    });
+  };
+
+  const handleCommentSubmit = (feedbackIndex) => {
+    const comment = feedbackComments[feedbackIndex];
+    if (comment && comment.trim()) {
+      const updatedFeedbackList = [...feedbackList];
+      if (!updatedFeedbackList[feedbackIndex].comments) {
+        updatedFeedbackList[feedbackIndex].comments = [];
+      }
+      updatedFeedbackList[feedbackIndex].comments.push(comment);
+      setFeedbackList(updatedFeedbackList);
+      localStorage.setItem("feedbackList", JSON.stringify(updatedFeedbackList)); // Save to localStorage
+      setFeedbackComments({
+        ...feedbackComments,
+        [feedbackIndex]: "",
+      });
+    } else {
+      alert("Please enter a comment before submitting.");
+    }
+  };
+
   return (
     <div className="body">
       <header className="header">
@@ -124,6 +167,7 @@ const FeedbackPage = () => {
                   <tr>
                     <th>#</th>
                     <th>Feedback</th>
+                    <th>Comments</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -131,6 +175,26 @@ const FeedbackPage = () => {
                     <tr key={index}>
                       <td>{index + 1}</td>
                       <td>{item.text}</td>
+                      <td>
+                        <ul>
+                          {(item.comments || []).map((comment, idx) => (
+                            <li key={idx}>
+                              <span>⭐</span> {comment}
+                            </li>
+                          ))}
+                        </ul>
+                        <input
+                          type="text"
+                          value={feedbackComments[index] || ""}
+                          onChange={(e) =>
+                            handleCommentChange(index, e.target.value)
+                          }
+                          placeholder="Add a comment"
+                        />
+                        <button onClick={() => handleCommentSubmit(index)}>
+                          Submit
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -140,27 +204,14 @@ const FeedbackPage = () => {
         </div>
 
         <div className="feedbackTable">
-          <h3 className="feedbackTitle">Flagged List</h3>
+          <h3 className="feedbackTitle">Flagged Posts</h3>
           <div className="scrollableTable">
-            {flaggedComments.length === 0 ? (
+            {flaggedPosts.length === 0 ? (
               <p style={{ marginTop: "5px" }}>None</p>
             ) : (
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Flagged Comment</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {flaggedComments.map((comment, index) => (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>{comment}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              flaggedPosts.map((post) => (
+                <Post_structure key={post._id} post={post} />
+              ))
             )}
           </div>
         </div>
