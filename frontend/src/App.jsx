@@ -8,6 +8,7 @@ import FeedbackPage from "./feedback";
 import Profile from "./profile_page";
 import PostPage from "./post";
 import axios from "axios";
+import ResourceBox from "./Library";
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -41,6 +42,7 @@ function App() {
         <Link to="/feedback">Feedback</Link>
         <Link to="/LoginSignup">Login/Signup</Link>
         <Routes>
+          <Route path="/library" element={<ResourceBox />} />
           <Route path="/post" element={<PostPage />} />
           <Route path="/feedback" element={<FeedbackPage />} />
           <Route path="/LoginSignup" element={<LoginSignup />} />
