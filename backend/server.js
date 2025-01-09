@@ -205,7 +205,12 @@ app.delete("/api/users/:id", async (req, res) => {
 app.get("/api/posts", async (req, res) => {
   try {
     const posts = await Post.find();
-    res.json(posts);
+    res.json(
+      posts.map((post) => ({
+        ...post.toObject(),
+        images: post.images.map((image) => image.toString("base64")),
+      }))
+    );
   } catch (error) {
     console.error("Error fetching posts:", error);
     res.status(500).send(error);

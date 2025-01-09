@@ -85,16 +85,24 @@ function Post_structure({ post }) {
     <>
       <div className="post">
         <h2 className="post-title">{post.question}</h2>
+        <p>{post.authorName}</p>
         <ul className="post-list">
-          {(post.comments || []).map(
-            (
-              comment,
-              index // Ensure comments is an array
-            ) => (
-              <li key={index}>
-                <p className="post-content">{comment}</p>
-              </li>
-            )
+          {(post.comments || []).map((comment, index) => (
+            <li key={index}>
+              <p className="post-content">{comment}</p>
+            </li>
+          ))}
+          {post.images && post.images.length > 0 && (
+            <div className="post-images">
+              {post.images.map((image, index) => (
+                <li key={index}>
+                  <img
+                    src={`data:image/jpeg;base64,${image}`}
+                    alt={`Post image ${index + 1}`}
+                  />
+                </li>
+              ))}
+            </div>
           )}
         </ul>
         <div className="post-footer">
@@ -171,6 +179,7 @@ Post_structure.propTypes = {
     dislikes: PropTypes.number,
     date: PropTypes.string.isRequired,
     isFlagged: PropTypes.bool,
+    images: PropTypes.arrayOf(PropTypes.string), // Add images prop type
   }).isRequired,
 };
 
@@ -181,6 +190,7 @@ Post_structure.defaultProps = {
     isFlagged: false,
     comments: [], // Ensure comments is an array
     tags: [], // Ensure tags is an array
+    images: [], // Ensure images is an array
   },
 };
 

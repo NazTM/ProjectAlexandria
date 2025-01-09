@@ -27,7 +27,6 @@ export const createPost = (formData) => {
 };
 
 export const getCreatedPosts = (username) => {
-  console.log("Fetching created posts for:", username); // Debug log
   return axios.get(`${API_URL}/users/${username}/createdPosts`);
 };
 

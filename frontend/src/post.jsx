@@ -1,10 +1,10 @@
-import { useState } from "react";
-import { Link, Routes, Route, useNavigate } from "react-router-dom"; // Import useNavigate
-import "./post.css"; // Import the post.css file
+import { useState, useEffect } from "react";
+import { Link, Routes, Route, useNavigate } from "react-router-dom";
+import "./post.css";
 import LoginSignup from "./LoginSignup";
 import FeedbackPage from "./feedback";
 import axios from "axios";
-import { createPost } from "./api"; // Import the createPost function
+import { createPost, getCreatedPosts } from "./api"; // Import the getCreatedPosts function
 
 function PostPage() {
   const [username, setUsername] = useState("");
@@ -12,7 +12,23 @@ function PostPage() {
   const [tags, setTags] = useState("");
   const [images, setImages] = useState([]);
   const [previewImage, setPreviewImage] = useState(null);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const [posts, setPosts] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await getCreatedPosts(username);
+        setPosts(response.data);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+
+    if (username) {
+      fetchPosts();
+    }
+  }, [username]);
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -52,10 +68,10 @@ function PostPage() {
       formData.append("question", question);
       formData.append("tags", tags);
       images.forEach((image, index) => {
-        formData.append(`images`, image); // Ensure field name matches 'images'
+        formData.append(`images`, image);
       });
 
-      const response = await createPost(formData); // Use createPost function from api.js
+      const response = await createPost(formData);
 
       console.log("Post submitted successfully:", response.data);
       navigate("/"); // Navigate back to home page
@@ -113,6 +129,26 @@ function PostPage() {
             </div>
           )}
           <button onClick={handleSubmit}>Post</button>
+        </div>
+        <div className="posts-list">
+          {posts.map((post) => (
+            <div key={post._id} className="post-item">
+              <h2>{post.question}</h2>
+              <p>{post.authorName}</p>
+              {post.images && post.images.length > 0 && (
+                <div className="post-images">
+                  {post.images.map((image, index) => (
+                    <img
+                      key={index}
+                      src={`data:image/jpeg;base64,${image}`}
+                      alt={`Post image ${index + 1}`}
+                      style={{ width: "100px", height: "100px" }}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       </main>
       <footer className="footer">
