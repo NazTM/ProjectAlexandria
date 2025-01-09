@@ -9,6 +9,7 @@ import Profile from "./profile_page";
 import PostPage from "./post";
 import axios from "axios";
 import ResourceBox from "./Library";
+import Library from "./Library";
 
 function App() {
   const [posts, setPosts] = useState([]);

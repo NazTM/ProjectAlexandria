@@ -85,7 +85,6 @@ function Post_structure({ post }) {
     <>
       <div className="post">
         <h2 className="post-title">{post.question}</h2>
-        <p>{post.authorName}</p>
         <ul className="post-list">
           {(post.comments || []).map((comment, index) => (
             <li key={index}>
